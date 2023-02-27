@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Film</title>
+	<link rel="stylesheet" href="/stile.css?version=2" />
+</head>
+
+<body>
+	<div><a href="/"><img src="/logo-siw.png" width="50%"/></a></div>
+    <h1>Dettagli Film</h1>
+    <div th:if="${movie}">
+        <span th:text="${movie.title}">Up!</span>
+        <span th:text="'(' + ${movie.year} + ')'">2000</span>
+        <span><img width="5%" th:src=${movie.urlImage} /></span>
+    </div>
+    <div th:unless="${movie}">Non esiste</div>
+  </body>
+</html>
