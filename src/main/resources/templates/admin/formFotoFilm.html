@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Aggiungi foto film</title>
+	 <link rel="stylesheet" href="/css/stile.css?version=2" />  
+</head>
+
+
+<body>
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+	
+	<h1>Foto per il film <span th:text="${movie.title}"> </span> </h1>
+
+	
+<form th:action="@{'/admin/aggiungiFotoFilm/' +  ${movie.id} }" method="POST"  enctype="multipart/form-data" >
+		 <div> 
+    <label>Foto: </label>
+    <input type="file" name="image" accept="image/png, image/jpeg" />
+     
+    </div>
+		<div>
+			<button type="submit"> Conferma </button>
+		</div>
+	</form>
+</body> 
+</html>

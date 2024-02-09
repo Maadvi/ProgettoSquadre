@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Seleziona Registra</title>
+	 <link rel="stylesheet" href="/css/stile.css?version=2" />  
+</head>
+
+
+<body>
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+	<h1>Registra per il film <span th:text="${movie.title}"> </span> </h1>
+	
+		<div th:if="${artists.isEmpty()}">Non ci sono artisti nel sistema</div>
+	<ul>
+		<li th:each="artist : ${artists}">
+			<a th:href="@{'/admin'+'/setDirectorToMovie' + '/' + ${artist.id}  + '/' + ${movie.id}}"
+				th:text="${artist.nome} + ' (' + ${artist.cognome} + ')'">Quentin fratm</a>
+		</li>
+	</ul>
+
+</body> 
+</html>

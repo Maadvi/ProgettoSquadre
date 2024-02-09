@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		New Presidente
+	</title>
+	<link rel="stylesheet" href="/css/stile.css?version=3" />
+</head>
+
+<body>
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+	<h1>Aggiungi un presidente</h1>
+	<form th:action="@{/presidente/admin/savePresidente}" method="POST" th:object="${presidente}" enctype="multipart/form-data" >
+		<div>
+			<span th:text="${messaggioErrore}">Errore</span>
+		</div>
+
+		<div>
+			<label for="luogoNascita">Luogo di Nascita:</label> <span><input type="text" th:field="${presidente.luogoNascita}" id="luogoNascita" /></span>
+		</div>
+
+		<div>
+			<label for="codiceFiscale">Codice fiscale:</label> <span><input type="text" th:field="${presidente.codiceFiscale}" id="codiceFiscale" /></span>
+		</div>
+		
+		<div>
+			<label for="dataNascita">Data di nascita:</label> <span><input type="date" th:field="${presidente.dataNascita}" id="dataNascita" /></span>
+		</div>
+
+		<div>
+			<label for="dropDownList">User che sarà il presidente:</label><select class="form-control" th:field="${presidente.userData}" id="dropDownList" required>
+			<option th:each="user : ${users}"  th:value="${user}" th:text="${user.name} +' '+ ${user.surname}"></option>
+		</select>
+		</div>
+
+		<div>
+			<span><button type="submit">Conferma</button></span>
+		</div>
+	</form>
+</body>
+
+</html>

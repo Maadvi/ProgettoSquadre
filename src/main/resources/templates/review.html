@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<!-- TODO: METTILINK PER MODIFICA E CANCELLAZIONE RECENSIONE, NEL CONTROLLER ID QUEST NUOVA PAGINA CONTROLLA CHE
+UTENTE CORRENTE CORRISPONDA EFFETTIVAMENTE ALL'UTENTE PRORPIETARIO SE NO GLI FAI VISUALIZZRE QUESTA PAGINA + MESS
+ERRORE DATO CHE HA PROVATO A METTERE MANO A UNA RECENSIONE NON SUA, LA ROBA CHE ANDRà NEL NUIOVO CNTROLLER LA
+TROVI NEL CONTROLLER REVIEW-->
+<head>
+	<title>Recensione</title>
+	<link rel="stylesheet" href="/css/stile.css?version=2" />
+<link rel="stylesheet" href="/css/bootstrap.min.css" />
+		<script src="/js/bootstrap.bundle.min.js"></script>
+	</head>
+	<body style="text-align:center;">
+		<header>
+			<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+				<div class="container-fluid">
+					<a class="navbar-brand" href="/">
+						SIW - MOVIE
+					</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarText">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="#">Home</a>
+							</li>
+						</ul>
+						<span class="navbar-text">
+							<span th:if="${#request.userPrincipal}">
+								<span th:text="${#request.userPrincipal.principal.username}"></span>
+								<a class="btn btn-primary" type="button" href="/logout">Logout</a>
+							</span>
+							<span th:unless="${#request.userPrincipal}">
+								<span class="d-grid gap-2 d-md-flex justify-content-md-end">
+								  <a class="btn btn-primary me-md-2" type="button" href="/register">Register</a>
+								  <a class="btn btn-primary" type="button" href="/login">Login</a>
+								</span>
+							</span>
+						</span>
+					</div>
+				</div>
+			</nav>
+		</header>
+
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
+		<div th:if="${review}">
+
+	<div th:if="${messaggioErrore}">
+		<h3>Non puoi aggiungere una recensione: <span th:text="${messaggioErrore}"> </span></h3>
+		<h3>Metti qui link per modifica cancella recensione</h3>
+		<h4>La tua recensione: </h4> 
+	</div>
+
+	 <div th:unless="${messaggioErrore}"><h4>Recensione del film <span th:text="${movie.title}"> </span>: </h4> </div>
+	        	   <h3>Titolo recensione: <span th:text="${review.title}"> </span></h3> 
+       	   <h3>Voto recensione: <span th:text="${review.valutazione}"> </span></h3> 
+       	   <h3>Testo recensione: <span th:text="${review.testo}"> </span></h3> 
+       	 <div th:unless="${messaggioErrore}">  <h3>Recensione scritta da: <span th:text="${ScrittoreRecensione}"> </span></h3> </div> 
+
+       	   </div>
+       	       <div th:unless="${review}">Questa recensione non esiste</div>
+
+	<div th:if="${messaggioProp}">
+		<h3><span th:text="${messaggioProp}"> </span> </h3>
+	</div>
+ 
+<form>
+ <input type="button" value="Indietro" onclick="history.back()">
+</form>
+       	   		<div th:if="${admin}">
+       	   	<a th:href=" @{'/admin'+'/confermaCancellaReview' + '/'  + ${review.id} +  '/' + ${movie.id} }">
+    <button style=" color:red">Cancella recensione</button>
+</a> </div>
+ 
+ </div>
+       	   	
+</body>
+
+</html>

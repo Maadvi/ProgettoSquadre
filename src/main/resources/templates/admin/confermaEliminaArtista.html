@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Conferma cancella artista</title>
+	<link rel="stylesheet" href="/css/stile.css?version=2" />
+</head>
+
+<body>
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+    <div th:if="${artist}">
+	  <span> <h1> <h1 th:text="${artist.cognome}"> </h1> </span>
+	  <h1>Sei sicuro di voler eliminare quest artista <u style="color:red"> <span th:text="${artist.cognome}"> </span> </u> verranno eleminitate tutte le informazioni su quest ultimo</h1> 
+
+			</div>
+
+
+       <div th:unless="${artist}">Non esiste</div>
+          <div>  <br>
+  	<a th:href="@{'/admin'+'/EliminaArtista' + '/' + ${artist.id}}">
+    <button style="color:red">Elimina artista</button>
+</a> </div>
+   
+  </body>
+</html>

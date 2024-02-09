@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		New Squadra
+	</title>
+	<link rel="stylesheet" href="/css/stile.css?version=3" />
+</head>
+
+<body>
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+	<h1>Aggiungi una squadra</h1>
+	<div th:if="${presidenti}">
+
+	<form th:action="@{/gestioneSquadre/admin/saveSquadra}" method="POST" th:object="${squadraData}">
+
+
+		<div th:if="${errore}">
+			<div>
+				<span th:text="${errore}">Errore</span>
+			</div>
+		</div>
+
+		<div>
+			<label for="nome">Nome:</label> <span><input required type="text" th:field="${squadraData.nome}" id="nome"/></span>
+		</div>
+
+		<div>
+			<label for="annoFondazione">Anno:</label> <span><input required type="text" th:field="${squadraData.annoFondazione}" id="annoFondazione"/></span>
+		</div>
+		<div>
+			<label for="indirizzoSede">Indirizzo sede:</label> <span><input required type="text" th:field="${squadraData.indirizzoSede}" id="indirizzoSede"/></span>
+		</div>
+
+		<div>
+			<label for="dropDownList">Presidente scelto: </label><select class="form-control" th:field="${squadraData.presidente}" id="dropDownList" required>
+			<option th:each="presidente : ${presidenti}"  th:value="${presidente}" th:text="${presidente.cognome}"></option>
+			</select>
+		</div>
+
+
+		<div>
+			<span><button type="submit">Conferma</button></span>
+		</div>
+	</form>
+	</div>
+	<div th:unless="${presidenti}">Non esistono presidenti a sistema</div>
+
+
+</body>
+
+</html>

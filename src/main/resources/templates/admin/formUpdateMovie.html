@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Update Film</title>
+	<link rel="stylesheet" href="/css/stile.css?version=2" />
+</head>
+
+<body>
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+    <div th:if="${movie}">
+	    <h1 th:text="${movie.title}">Dettagli Film</h1>
+        <div>Anno: <span th:text="'(' + ${movie.year} + ')'">2000</span></div>
+			</div>
+			
+      <div th:unless="${movie.director}"> Nessun registra: <a th:href="@{'/admin'+'/addDirector' + '/' + ${movie.id}}"><button>Aggiungi registra</button></a> </div>
+	<h1>Attori del film <span th:text="${movie.title}"> </span>: </h1>
+		<div th:if="${movie.actors.isEmpty()}">Non ci sono attori per questo film</div>
+	<ul>
+		<li th:each="artist : ${movie.actors}">
+			<a th:href="@{'/artists' + '/' + ${artist.id}}"
+				th:text="${artist.nome} + ' (' + ${artist.cognome} + ')'">Quentin fratm</a>
+		</li>	
+	</ul>
+	<a th:href="@{'/admin'+'/updateActors' + '/' + ${movie.id}}">
+    <button>Modifica attori</button>
+</a>
+        <div>  <br>
+  	<a th:href="@{'/admin'+'/formFotoFilm' + '/' + ${movie.id}}">
+    <button>Aggiungi foto al film</button>
+</a> </div>
+
+</form>
+    </div>
+    
+      <div th:unless="${movie}">Non esiste</div>
+          <div>  <br>
+  	<a th:href="@{'/reviewsDelFilm' + '/' + ${movie.id}}">
+    <button>Visualizza le recensioni del film</button>
+</a> </div>
+    
+    
+          <div th:unless="${movie}">Non esiste</div>
+          <div>  <br>
+  	<a th:href="@{'/admin'+'/modificaFilm' + '/' + ${movie.id}}">
+    <button>Modifica i dati del film</button>
+</a> </div>
+    
+    <div th:unless="${movie}">Non esiste</div>
+   
+          <div th:unless="${movie}">Non esiste</div>
+          <div>  <br>
+  	<a th:href="@{'/admin'+'/confermaEliminaFilm' + '/' + ${movie.id}}">
+    <button>Elimina il film</button>
+</a> </div>
+
+
+
+  </body>
+</html>
