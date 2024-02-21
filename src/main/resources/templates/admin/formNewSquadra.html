@@ -34,8 +34,8 @@
 		</div>
 
 		<div>
-			<label for="dropDownList">Presidente scelto: </label><select class="form-control" th:field="${squadraData.presidente}" id="dropDownList" required>
-			<option th:each="presidente : ${presidenti}"  th:value="${presidente}" th:text="${presidente.cognome}"></option>
+			<label for="dropDownList">Presidente scelto: </label><select class="form-control" th:field="${squadraData.id}" id="dropDownList" required>
+			<option th:each="presidente : ${presidenti}"  th:value="${presidente.id}" th:text="${presidente.cognome}"></option>
 			</select>
 		</div>
 

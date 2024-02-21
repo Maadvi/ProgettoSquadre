@@ -8,7 +8,6 @@ public class UserData {
 
     private Long id;
 
-
     private String name;
 
     private String surname;

@@ -25,10 +25,9 @@ public class SquadraData {
 
     @NotNull()
     @NotBlank
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate annoFondazione;
+    private Long annoFondazione;
 
     private PresidenteData presidente;
 
-    private List<GiocatoreData> Tesserati;
+    private List<GiocatoreData> tesserati;
 }

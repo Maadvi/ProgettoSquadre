@@ -8,13 +8,12 @@ import it.uniroma3.siw.mapper.PresidenteMapper;
 import it.uniroma3.siw.mapper.SquadraMapper;
 import it.uniroma3.siw.mapper.UserMapper;
 import it.uniroma3.siw.model.*;
-import it.uniroma3.siw.service.GiocatoreService;
-import it.uniroma3.siw.service.PresidenteService;
-import it.uniroma3.siw.service.SquadraService;
-import it.uniroma3.siw.service.UserService;
+import it.uniroma3.siw.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,11 +49,18 @@ public class GestioneSquadraBusiness {
     private UserService userService;
 
     @Autowired
-    private UserMapper userMapper;
+    private CredentialsService credentialsService;
 
     public String showSquadra(Model model, Long idSquadra){
         Squadra squadra = squadraService.findSquadraById(idSquadra);
         model.addAttribute("squadra", squadraMapper.fromSquadra(squadra));
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+
+        if(credentials.getRole().equals(Credentials.PRESIDENTE))
+            model.addAttribute("presidente", true);
+
+
         return "squadra.html";
     }
     public String showRegisterForm (Model model) {
@@ -78,7 +84,10 @@ public class GestioneSquadraBusiness {
     public String saveSquadra (Model model, SquadraData squadraData) {
         Long id;
         try{
-            id = squadraService.saveSquadra(squadraMapper.fromSquadraData(squadraData)).getId();
+            Squadra squadra = squadraMapper.fromSquadraData(squadraData);
+            squadra.setPresidente(presidenteService.findPresidenteById(squadra.getId()));
+            squadra.setId(null);
+            id = squadraService.saveSquadra(squadra).getId();
         }catch (Exception e){
             log.error(ExceptionUtils.getMessage(e));
             model.addAttribute("errore" , "errore nel salvatggio della squadra");
@@ -86,18 +95,9 @@ public class GestioneSquadraBusiness {
 
 
         }
-        //todo qui non setta il presidente dall apaginaq html della form ti dovrei star passando l'id controlla in debug che cazzo vuole
-        return "admin/formNewSquadra.html"/*showSquadra(model, id) */;
+        return showSquadra(model, id) ;
     }
 
-
-
-    public String consultazione(Model model){
-        model.addAttribute("squadre" , squadraMapper.fromSquadra(squadraService.findAll()));
-
-        return "consultazioneSquadre.html";
-
-    }
 
     public String inseritmentoSquadra(Model model, SquadraData squadraData, PresidenteData presidenteData, Long idUserPres){
 
@@ -167,11 +167,11 @@ public class GestioneSquadraBusiness {
 
     }
 
-    public String addGiocatore(Model model, SquadraData squadraData, GiocatoreData giocatoreData){
+    public String addGiocatore(Model model, Long idSquadra, Long idGiocatore){
         try {
-            Squadra squadra1 = squadraMapper.fromSquadraData(squadraData);
+            Squadra squadra1 = squadraService.findSquadraById(idSquadra);
 
-            Giocatore giocatore = giocatoreMapper.fromGiocatoreData(giocatoreData);
+            Giocatore giocatore = giocatoreService.findGiocatoreById(idGiocatore);
             giocatore.setSquadra(squadra1);
             giocatoreService.saveGiocatore(giocatore);
 
@@ -186,14 +186,14 @@ public class GestioneSquadraBusiness {
 
             model.addAttribute("messaggio", "Giocatore aggiunto alla squadra correttamente");
 
-            return "aggiungiGiocatore.html";
+            return addGiocatoreToSquadra(model, idSquadra);
         } catch (Exception e){
             model.addAttribute("messaggio", "Errore nell'inserimento del giocatore");
 
             log.error(ExceptionUtils.getMessage(e));
 
 
-            return "aggiungiGiocatore.html";
+            return addGiocatoreToSquadra(model, idSquadra);
         }
 
     }
@@ -211,17 +211,40 @@ public class GestioneSquadraBusiness {
 
             model.addAttribute("messaggio", "Giocatore rimosso alla squadra correttamente");
 
-            return "rimuoviGiocatore.html";
+            return addGiocatoreToSquadra(model, idSquadra);
 
         } catch (Exception e){
-            model.addAttribute("messaggio", "Errore nell'inserimento del giocatore");
+            model.addAttribute("messaggio", "Errore nella rimozione del giocatore");
 
             log.error(ExceptionUtils.getMessage(e));
 
 
-            return "rimuoviGiocatore.html";
+            return addGiocatoreToSquadra(model, idSquadra);
         }
 
     }
+
+
+    public String addGiocatoreToSquadra(Model model, Long idSquadra){
+
+            Squadra squadra = squadraService.findSquadraById(idSquadra);
+
+            List<Giocatore> giocatori = giocatoreService.findAll();
+
+            model.addAttribute("giocatori", giocatoreMapper.fromGiocatore(giocatori));
+
+            model.addAttribute("squadra", squadraMapper.fromSquadra(squadra));
+
+
+        return "presidente/addGiocatoreToSquadra.html";
+
+
+    }
+
+   public String consultazione(Model model){
+        model.addAttribute("squadre", squadraMapper.fromSquadra(squadraService.findAll()));
+        return "squadre.html";
+   }
+
 
 }

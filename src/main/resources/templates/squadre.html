@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>
-			SiwSquadre - Homepage
-		</title>
-		<link rel="stylesheet" href="/css/stile.css?version=2" />
-		<link rel="stylesheet" href="/css/bootstrap.min.css" />
+
+<head>
+	<title>Squadre</title>
+	 <link rel="stylesheet" href="/css/stile.css?version=2" />  
+<link rel="stylesheet" href="/css/bootstrap.min.css" />
 		<script src="/js/bootstrap.bundle.min.js"></script>
 	</head>
-	<body >
+	<body  >
 		<header>
 			<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
 				<div class="container-fluid">
@@ -40,15 +39,17 @@
 				</div>
 			</nav>
 		</header>
-		<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
-		<h1>Consulta l'archivio</h1>
-		<div>
-			<a href="/gestioneSquadre/consultazione">Elenco Squadre</a>
-		</div>
-		<div>
-			<a href="/giocatore">Elenco Giocatori</a>
-		</div>
-
-
+	
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+	<h1>Squadre:</h1>
+	<div th:if="${squadre.isEmpty()}">Non ci sono squadre nel sistema</div>
+	<ul>
+		<li th:each="squadra : ${squadre}">
+			<a th:href="@{'/gestioneSquadre/squadra' + '/' + ${squadra.id}}"
+				th:text="${squadra.nome} + ' (' + ${squadra.annoFondazione} + ')'">Roma</a>
+		</li>
+	</ul>
+	
 </body>
+
 </html>

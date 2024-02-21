@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Aggiungi Giocatori</title>
+	 <link rel="stylesheet" href="/css/stile.css?version=2" />  
+</head>
+
+<body>
+	<div><a href="/static"><img src="/images/logo-siw.png" width="50%"/></a></div>
+	
+<h1>Giocatori della squadra <span th:text="${squadra.nome}"> </span>: </h1>
+		<div th:if="${squadra.tesserati.isEmpty()}">Non ci sono giocatori per questa squadra</div>
+	<ul>
+		<li th:each="giocatore : ${squadra.tesserati}">
+		<div> <span th:href="@{'/giocatore' + '/' + ${giocatore.id}}"
+				th:text="${giocatore.nome} + ' (' + ${giocatore.cognome} + ')'">Quentin fratm</span>
+				<a th:href ="@{'/presidente/gestioneSquadre'+'/removeGiocatore' + '/' + ${giocatore.id} + '/' + ${squadra.id}}"><button>cancella</button></a></div>
+		</li>	
+	</ul> 
+
+	<h1>Giocatori disponibili:</h1>
+	<div th:if="${giocatori.isEmpty()}">Non ci sono giocatorei disponibili nel sistema</div>
+	
+	<ul>
+		<li th:if ="!${#lists.contains(squadra.tesserati, giocatore)}" th:each="giocatore : ${giocatori}">
+<div/><span th:text="''+${giocatore.nome} +' '+ ${giocatore.cognome} + ''"></span> <a th:href ="@{'/presidente/gestioneSquadre'+'/addGiocatore' + '/' + ${giocatore.id} + '/' + ${squadra.id}}"><button>aggiungi</button></a></div>
+		</li>
+	</ul>
+	
+	<div/> <a th:href ="@{'/gestioneSquadre/squadra' + '/'  + ${squadra.id}}"><button>Visualizza Squadra</button></a></div>
+	
+</body>
+
+</html>

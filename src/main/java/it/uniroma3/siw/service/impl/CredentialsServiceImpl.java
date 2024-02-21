@@ -32,5 +32,10 @@ public class CredentialsServiceImpl implements CredentialsService {
         credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
         return this.credentialsRepository.save(credentials);
     }
+
+	public Credentials savePresidenteCredentials(Credentials credentials) {
+		credentials.setRole(Credentials.PRESIDENTE);
+		return this.credentialsRepository.save(credentials);
+	}
     
 }

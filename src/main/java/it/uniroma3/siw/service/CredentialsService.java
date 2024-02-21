@@ -12,4 +12,7 @@ public interface CredentialsService {
 
 
     public Credentials saveCredentials(Credentials credentials);
+
+    public Credentials savePresidenteCredentials(Credentials credentials);
+
 }

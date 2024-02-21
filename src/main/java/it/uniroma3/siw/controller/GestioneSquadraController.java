@@ -7,10 +7,7 @@ import it.uniroma3.siw.data.SquadraData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/gestioneSquadre")
@@ -20,7 +17,7 @@ public class GestioneSquadraController {
 
     @GetMapping("/consultazione")
     public String consultazione(Model model) {
-        return null;
+        return gestioneSquadraBusiness.consultazione(model);
 
     }
 
@@ -33,4 +30,24 @@ public class GestioneSquadraController {
     public String formNewSquadra(Model model){
         return gestioneSquadraBusiness.showRegisterForm(model);
     }
+
+    @GetMapping("/presidente/addGiocatoreToSquadra/{idSquadra}")
+    public String addGiocatoreToSquadra(Model model, @PathVariable Long idSquadra){
+        return gestioneSquadraBusiness.addGiocatoreToSquadra(model,idSquadra);
+    }
+
+    @GetMapping("/presidente/addGiocatore/{idGiocatore}/{idSquadra}")
+    public String addGiocatore(Model model, @PathVariable Long idGiocatore, @PathVariable Long idSquadra){
+        return gestioneSquadraBusiness.addGiocatore(model,idSquadra, idGiocatore);
+    }
+    @GetMapping("/presidente/removeGiocatore/{idGiocatore}/{idSquadra}")
+    public String removeGiocatore(Model model, @PathVariable Long idGiocatore, @PathVariable Long idSquadra){
+        return gestioneSquadraBusiness.removeGiocatore(model,  idGiocatore, idSquadra );
+    }
+
+    @GetMapping("/squadra/{idSquadra}")
+    public String removeGiocatore(Model model, @PathVariable Long idSquadra){
+        return gestioneSquadraBusiness.showSquadra(model, idSquadra );
+    }
+
 }

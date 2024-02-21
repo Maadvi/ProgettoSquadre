@@ -53,6 +53,11 @@ public class AuthenticationBusiness {
             Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
             if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
                 return "admin/indexAdmin.html";
+            }else{
+                if(credentials.getRole().equals(Credentials.PRESIDENTE)){
+                    return "presidente/indexPresidente.html";
+
+                }
             }
         }
         return "index.html";
@@ -64,6 +69,9 @@ public class AuthenticationBusiness {
         Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
         if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
             return "admin/indexAdmin.html";
+        }
+        if (credentials.getRole().equals(Credentials.PRESIDENTE)) {
+            return "presidente/indexPresidente.html";
         }
         return "index.html";
     }

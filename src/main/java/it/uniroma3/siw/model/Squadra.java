@@ -26,9 +26,7 @@ public class Squadra {
     private String indirizzoSede;
 
     @NotNull()
-    //@NotBlank
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate annoFondazione;
+    private Long annoFondazione;
 
     @ManyToOne
     private Presidente presidente;

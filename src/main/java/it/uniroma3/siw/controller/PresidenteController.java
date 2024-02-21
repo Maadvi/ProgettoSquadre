@@ -4,12 +4,10 @@ import it.uniroma3.siw.business.GestioneSquadraBusiness;
 import it.uniroma3.siw.business.PresidenteBusiness;
 import it.uniroma3.siw.data.PresidenteData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/presidente")
@@ -25,6 +23,11 @@ public class PresidenteController {
     @GetMapping("/admin/formNewPresidente")
     public String formNewPresidente(Model model){
         return presidenteBusiness.showRegisterForm(model);
+    }
+
+    @GetMapping("/{idPresidente}")
+    public String getPresidente(Model model, @PathVariable Long idPresidente){
+        return presidenteBusiness.getPresidente(model, idPresidente);
     }
 
 }

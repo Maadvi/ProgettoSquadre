@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>
-			SiwSquadre - Homepage
-		</title>
-		<link rel="stylesheet" href="/css/stile.css?version=2" />
-		<link rel="stylesheet" href="/css/bootstrap.min.css" />
+  <head>
+    <title>Giocatore</title>
+	<link rel="stylesheet" href="/css/stile.css?version=2" />
+<link rel="stylesheet" href="/css/bootstrap.min.css" />
 		<script src="/js/bootstrap.bundle.min.js"></script>
 	</head>
-	<body >
+	<body style="text-align:center;">
 		<header>
 			<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
 				<div class="container-fluid">
 					<a class="navbar-brand" href="/">
-						SIW - Squadre
+						SIW - SQUADRE
 					</a>
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
@@ -40,15 +38,32 @@
 				</div>
 			</nav>
 		</header>
-		<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
-		<h1>Consulta l'archivio</h1>
-		<div>
-			<a href="/gestioneSquadre/consultazione">Elenco Squadre</a>
-		</div>
-		<div>
-			<a href="/giocatore">Elenco Giocatori</a>
-		</div>
+	
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+    <div th:if="${giocatore}">
+	    <h1 th:text="${giocatore.nome}">Nome del giocatorea</h1>
+        <div>Cognome: <span th:text="'(' + ${giocatore.cognome} + ')'">lello</span></div>
+        <div th:if="${giocatore.dataNascita}">Data di nascita: <span th:text="'(' + ${giocatore.dataNascita} + ')'">data nascita 12/555/666</span></div>
+        <div th:if="${giocatore.luogoNascita}">Luogo di nascita: <span th:text="'(' + ${giocatore.luogoNascita} + ')'">luogo nascita</span></div>
+       			 <div th:if="${giocatore.squadra}">Squadra del giocatorea:  <span th:text="${giocatore.squadra.nome}"> nome squadra </span> </div>
+
+    </div>
+    
+    
+    
+ 
+    
+   <div th:if="${admin}">
+       	   	<a th:href=" @{'/admin'+'/modificagiocatorea' + '/'  + ${giocatore.id}  }">
+    <button style=" color:blue">Modifica dati giocatorea</button>
+</a> </div> 
+    
+    
+<div th:if="${admin}">
+       	   	<a th:href=" @{'/admin'+'/confermaEliminagiocatorea' + '/'  + ${giocatore.id}  }">
+    <button style=" color:red">Cancella giocatorea</button>
+</a> </div>
 
 
-</body>
+  </body>
 </html>

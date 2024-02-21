@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Artista</title>
+    <title>Squadra</title>
 	<link rel="stylesheet" href="/css/stile.css?version=2" />
 <link rel="stylesheet" href="/css/bootstrap.min.css" />
 		<script src="/js/bootstrap.bundle.min.js"></script>
@@ -11,7 +11,7 @@
 			<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
 				<div class="container-fluid">
 					<a class="navbar-brand" href="/">
-						SIW - MOVIE
+						SIW - SQUADRE
 					</a>
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
@@ -40,30 +40,30 @@
 		</header>
 	
 	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
-    <div th:if="${artist}">
-	    <h1 th:text="${artist.nome}">Nome dell'artista</h1>
-        <div>Cognome: <span th:text="'(' + ${artist.cognome} + ')'">lello</span></div>
-        <div th:if="${artist.data_nascita}">Data di nascita: <span th:text="'(' + ${artist.data_nascita} + ')'">data nascita 12/555/666</span></div>
-        <div th:if="${artist.data_morte}">Data di morte: <span th:text="'(' + ${artist.data_morte} + ')'">data nascita 12/555/666</span></div>
-       			 <div th:if="${artist.fotoPath}">Foto artista: <br> <span><img th:src="@{${artist.fotoPath}}" style="max-width: 20%;"/>  </span> </div>
+    <div th:if="${squadra}">
+	    <h1 th:text="${squadra.nome}">Dettagli squadra</h1>
 
+        <div>Anno fondazione: <span th:text="'(' + ${squadra.annoFondazione} + ')'">2000</span></div>
+        <div th:if="${squadra.presidente}">
+      <h3> <a th:href="@{'/presidente' + '/' + ${squadra.presidente.id}}"> Presidente squadra: <span th:text="${squadra.presidente.nome} + ' (' + ${squadra.presidente.cognome} + ')' ">nome presidente</span></a> </h3></div>
+		</div> 
+		<div th:if="${squadra.tesserati  != null}" >
+<h3>Giocatori della squadra: </h3>
+		<div th:if="${squadra.tesserati.isEmpty()}">Non ci sono giocatori per questa squadra</div>
+	<ul>
+		<li th:each="giocatore : ${squadra.tesserati}">
+			<a th:href="@{'/giocatore' + '/' + ${giocatore.id}}"
+				th:text="${giocatore.nome} + ' (' + ${giocatore.cognome} + ')'">Quentin fratm</a>
+		</li>	
+	</ul>
+
+      
     </div>
-    
-    
-    
- 
-    
-   <div th:if="${admin}">
-       	   	<a th:href=" @{'/admin'+'/modificaArtista' + '/'  + ${artist.id}  }">
-    <button style=" color:blue">Modifica dati artista</button>
-</a> </div> 
-    
-    
-<div th:if="${admin}">
-       	   	<a th:href=" @{'/admin'+'/confermaEliminaArtista' + '/'  + ${artist.id}  }">
-    <button style=" color:red">Cancella artista</button>
-</a> </div>
+		<div th:if="${presidente}">
+			<a th:href="@{'/gestioneSquadre/presidente/addGiocatoreToSquadra' + '/' + ${squadra.id}}"
+			   th:text="'modifica componenti squadra'">Roma</a>
+		</div>
 
-
-  </body>
+		<div th:unless="${squadra}">Squadra non esiste</div>
+	</body>
 </html>

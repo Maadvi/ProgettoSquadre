@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-	<title>Film</title>
+  <head>
+    <title>Presidente</title>
 	<link rel="stylesheet" href="/css/stile.css?version=2" />
 <link rel="stylesheet" href="/css/bootstrap.min.css" />
 		<script src="/js/bootstrap.bundle.min.js"></script>
@@ -12,7 +11,7 @@
 			<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
 				<div class="container-fluid">
 					<a class="navbar-brand" href="/">
-						SIW - MOVIE
+						SIW - SQUADRE
 					</a>
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
@@ -41,14 +40,33 @@
 		</header>
 	
 	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
-	<h1>Film che soddisfano i requisiti</h1>
-	<div th:if="${movies.isEmpty()}">Non ci sono film che soddisfano i requisiti</div>
-	<ul th:if="${!movies.isEmpty()}">
-		<li th:each="movie : ${movies}">
-			<a href="squadra.html" th:href="@{'/movies' + '/' + ${movie.id}}"
-               th:text="${movie.title} + ' (' + ${movie.year}+')'">Up! (2000)</a>
-		</li>
-	</ul>
-</body>
+    <div th:if="${presidente}">
+	    <h1 th:text="${presidente.nome}">Nome del presidentea</h1>
+        <div>Cognome: <span th:text="'(' + ${presidente.cognome} + ')'">lello</span></div>
+        <div th:if="${presidente.dataNascita}">Data di nascita: <span th:text="'(' + ${presidente.dataNascita} + ')'">data nascita 12/555/666</span></div>
+        <div th:if="${presidente.luogoNascita}">Luogo di nascita: <span th:text="'(' + ${presidente.luogoNascita} + ')'">luogo nascita</span></div>
+		<div th:if="${presidente.idSquadra}">
+			<a th:href=" @{'/gestioneSquadre/squadra' + '/'  + ${presidente.idSquadra}  }">
+				<button style=" color:blue">Vai alla squadra del presidente</button>
+			</a> </div>
 
+	</div>
+    
+    
+    
+ 
+    
+   <div th:if="${admin}">
+       	   	<a th:href=" @{'/admin'+'/modificapresidentea' + '/'  + ${presidente.id}  }">
+    <button style=" color:blue">Modifica dati presidentea</button>
+</a> </div> 
+    
+    
+<div th:if="${admin}">
+       	   	<a th:href=" @{'/admin'+'/confermaEliminapresidentea' + '/'  + ${presidente.id}  }">
+    <button style=" color:red">Cancella presidentea</button>
+</a> </div>
+
+
+  </body>
 </html>

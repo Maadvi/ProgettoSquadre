@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		New giocatore
+	</title>
+	<link rel="stylesheet" href="/css/stile.css?version=3" />
+</head>
+
+<body>
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+	<h1>Aggiungi un giocatore</h1>
+	<form th:action="@{/giocatore/presidente/savegiocatore}" method="POST" th:object="${giocatore}" enctype="multipart/form-data" >
+		<div>
+			<h3 th:text="${errore}">Errore</h3>
+			<br>
+			<br>
+		</div>
+		<div>
+			<label for="nome">Nome:</label> <span><input type="text" th:field="${giocatore.nome}" id="nome" /></span>
+		</div>
+		<div>
+			<label for="cognome">Cognome:</label> <span><input type="text" th:field="${giocatore.cognome}" id="cognome" /></span>
+		</div>
+
+		<div>
+			<label for="luogoNascita">Luogo di Nascita:</label> <span><input type="text" th:field="${giocatore.luogoNascita}" id="luogoNascita" /></span>
+		</div>
+		
+		<div>
+			<label for="dataNascita">Data di nascita:</label> <span><input type="date" th:field="${giocatore.dataNascita}" id="dataNascita" /></span>
+		</div>
+
+		<div>
+			<span><button type="submit">Conferma</button></span>
+		</div>
+	</form>
+</body>
+
+</html>

@@ -37,18 +37,18 @@ public class AuthConfiguration extends WebSecurityConfigurerAdapter {
 		// AUTORIZZAZIONE: qui definiamo chi può accedere a cosa 
 		.authorizeRequests()
 		// chiunque (autenticato o no) può accedere alle pagine index, login, register, ai css e alle immagini
-		.antMatchers(HttpMethod.GET,  "/", "/index" ,"/login" , "/register",  "/movies/**", "/artists/**", "/css/**", "/js/**", "/images/**","/user-photos/**",
-				"/movie-photos/**" ,"favicon.ico", "/movie","/artist-photos/**" , "/reviewsDelFilm/**" ).permitAll()
+		.antMatchers(HttpMethod.GET,  "/", "/index" ,"/login" , "/register",   "/css/**", "/js/**", "/images/**",
+			"favicon.ico", "/success").permitAll()
 		// chiunque (autenticato o no) può mandare richieste POST al punto di accesso per login e register 
 		.antMatchers(HttpMethod.POST, "/login", "/register").permitAll()
 		// solo gli utenti autenticati con ruolo ADMIN possono accedere a risorse con path /admin/**
-		.antMatchers(HttpMethod.GET,   "/admin/**" , "/**").hasAnyAuthority(ADMIN_ROLE)
-		.antMatchers(HttpMethod.POST,  "/admin/**" , "/admin/aggiungiFotoFilm/*" , "/**").hasAnyAuthority(ADMIN_ROLE)
+		.antMatchers(HttpMethod.GET,   "/admin/**" , "/**", "/gestioneSquadre/**").hasAnyAuthority(ADMIN_ROLE)
+		.antMatchers(HttpMethod.POST,  "/admin/**"  , "/**").hasAnyAuthority(ADMIN_ROLE)
 		// solo gli utenti autenticati con ruolo PRESIDENTE possono accedere a risorse con path /presidente/**
-		.antMatchers(HttpMethod.GET,   "/presidente/**" ).hasAnyAuthority(PRESIDENTE)
-		.antMatchers(HttpMethod.POST,  "/presidente/**").hasAnyAuthority(PRESIDENTE)
+		.antMatchers(HttpMethod.GET,   "/presidente/**" , "/gestioneSquadre/**", "/giocatore/**", "/presidente/{idPresidente}", "/**").hasAnyAuthority(PRESIDENTE)
+		.antMatchers(HttpMethod.POST,  "/presidente/**", "/gestioneSquadre/**", "/giocatore/**", "/giocatore/presidente/formNewgiocatore").hasAnyAuthority(PRESIDENTE)
 		// tutti gli utenti autenticati possono accere alle pagine rimanenti 
-		.antMatchers(HttpMethod.POST, "/review/**", "/review" , "/formNewReview/**" , "/formNewReview" ,  "/**" , "movie-photos/*" ).authenticated()
+		.antMatchers(HttpMethod.POST,   "/**"  ).authenticated()
 		.anyRequest().authenticated()
 		.and().exceptionHandling().accessDeniedPage("/index")
 

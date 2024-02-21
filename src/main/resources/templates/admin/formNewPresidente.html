@@ -13,7 +13,9 @@
 	<h1>Aggiungi un presidente</h1>
 	<form th:action="@{/presidente/admin/savePresidente}" method="POST" th:object="${presidente}" enctype="multipart/form-data" >
 		<div>
-			<span th:text="${messaggioErrore}">Errore</span>
+			<h3 th:text="${errore}">Errore</h3>
+			<br>
+			<br>
 		</div>
 
 		<div>
@@ -29,8 +31,8 @@
 		</div>
 
 		<div>
-			<label for="dropDownList">User che sarà il presidente:</label><select class="form-control" th:field="${presidente.userData}" id="dropDownList" required>
-			<option th:each="user : ${users}"  th:value="${user}" th:text="${user.name} +' '+ ${user.surname}"></option>
+			<label for="dropDownList">User che sarà il presidente:</label><select class="form-control" th:field="${presidente.nome}" id="dropDownList" required>
+			<option th:each="user : ${users}"  th:value="${user.id}" th:text="${user.name} +' '+ ${user.surname}"></option>
 		</select>
 		</div>
 

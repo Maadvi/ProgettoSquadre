@@ -1,11 +1,15 @@
 package it.uniroma3.siw.business;
 
 import it.uniroma3.siw.data.GiocatoreData;
+import it.uniroma3.siw.data.PresidenteData;
+import it.uniroma3.siw.data.UserData;
 import it.uniroma3.siw.mapper.GiocatoreMapper;
 import it.uniroma3.siw.model.Giocatore;
+import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.service.GiocatoreService;
 import it.uniroma3.siw.service.SquadraService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
@@ -71,13 +75,19 @@ public class GiocatoreBusiness {
     }
 
 
-    String giocatori(Model model){
+    public String giocatori(Model model){
         List<GiocatoreData> giocatoriData = giocatoreMapper.fromGiocatore(giocatoreService.findAll());
 
         model.addAttribute("giocatori", giocatoriData);
 
         return "giocatori.html";
 
+    }
+
+    public String showRegisterForm (Model model) {
+        model.addAttribute("giocatore", new GiocatoreData());
+
+        return "admin/formNewGiocatore.html";
     }
 
 

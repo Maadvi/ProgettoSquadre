@@ -1,12 +1,16 @@
 package it.uniroma3.siw.business;
 
 import it.uniroma3.siw.data.PresidenteData;
-import it.uniroma3.siw.data.SquadraData;
+import it.uniroma3.siw.data.UserData;
 import it.uniroma3.siw.mapper.PresidenteMapper;
 import it.uniroma3.siw.mapper.UserMapper;
+import it.uniroma3.siw.model.Credentials;
+import it.uniroma3.siw.model.Presidente;
+import it.uniroma3.siw.model.Squadra;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.PresidenteService;
+import it.uniroma3.siw.service.SquadraService;
 import it.uniroma3.siw.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -34,19 +38,40 @@ public class PresidenteBusiness {
     @Autowired
     private UserMapper userMapper;
 
-    public List<User> presidentiDisp(Model model){
-        List<User> users = userService.getAllUsers();
-        users = users.stream().filter(t->t.getFlgPresidente().equals(true) && t.getPresidente()==null).toList();
+    @Autowired
+    private SquadraService squadraService;
 
-        return users;
+    @Autowired
+    private CredentialsService credentialsService;
+
+    public String getPresidente(Model model, Long id){
+        Presidente presidente = presidenteService.findPresidenteById(id);
+        Squadra squadra = squadraService.findByPresidente(presidente);
+        PresidenteData presidenteData = presidenteMapper.fromPresidente(presidente);
+        if(squadra!=null && squadra.getId()!=null){
+            presidenteData.setIdSquadra(String.valueOf(squadra.getId()));
+
+        }
+        model.addAttribute("presidente",presidenteData) ;
+
+        return "presidente.html";
     }
 
     public String showRegisterForm (Model model) {
-        List<User> users = userService.getAllUsers();
-        users = users.stream().filter(t->t.getFlgPresidente().equals(true) && t.getPresidente()==null).toList();
+        try{
+            List<User> users1 = userService.getAllUsers();
+            users1 = users1.stream().filter(t->t.getFlgPresidente().equals(true) && t.getPresidente()==null).toList();
 
-        model.addAttribute("users", userMapper.fromUser(users));
-        model.addAttribute("presidente", new PresidenteData());
+            List<UserData> users = userMapper.fromUser(users1);
+
+            model.addAttribute("users", users);
+            model.addAttribute("presidente", new PresidenteData());
+
+            return "admin/formNewPresidente.html";
+
+        }catch (Exception e){
+            log.error(ExceptionUtils.getMessage(e));
+        }
 
         return "admin/formNewPresidente.html";
     }
@@ -54,16 +79,23 @@ public class PresidenteBusiness {
     public String savePresidente (Model model, PresidenteData presidenteData) {
         Long id;
         try{
+            User user = userService.getUser(Long.valueOf(presidenteData.getNome()));
 
-            id = presidenteService.savePresidente(presidenteMapper.fromPresidenteData(presidenteData)).getId();
+            Presidente presidente = presidenteMapper.fromPresidenteData(presidenteData);
+            presidente.setUser(user);
+            presidente.setNome(user.getName());
+            presidente.setCognome(user.getSurname());
+            user.setPresidente(presidente);
+            userService.saveUser(user);
+            id = presidenteService.savePresidente(presidente).getId();
+            Credentials credentials=credentialsService.getCredentials(user.getSurname());
+            credentialsService.savePresidenteCredentials(credentials);
         }catch (Exception e){
             log.error(ExceptionUtils.getMessage(e));
             model.addAttribute("errore" , "errore nel salvatggio del presidente");
-            return "admin/formNewPresidente.html";
-
-
+            return showRegisterForm ( model);
         }
-        //todo qui non setta il presidente dall apaginaq html della form ti dovrei star passando l'id controlla in debug che cazzo vuole
-        return "admin/formNewPresidente.html"/*showSquadra(model, id) */;
+        model.addAttribute("errore" , "presidente salvato correttamente");
+        return getPresidente ( model,id);
     }
 }

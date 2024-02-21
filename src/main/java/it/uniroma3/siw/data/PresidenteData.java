@@ -11,12 +11,9 @@ import java.time.LocalDate;
 public class PresidenteData {
     private Long id;
 
-    @NotNull()
-    @NotBlank
+
     private String nome;
 
-    @NotNull()
-    @NotBlank
     private String cognome;
 
     private String codiceFiscale;
@@ -27,4 +24,6 @@ public class PresidenteData {
     private String luogoNascita;
 
     private UserData userData;
+
+    private String idSquadra;
 }

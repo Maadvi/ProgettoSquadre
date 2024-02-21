@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title>Film</title>
+	<title>Giocatori</title>
 	 <link rel="stylesheet" href="/css/stile.css?version=2" />  
 <link rel="stylesheet" href="/css/bootstrap.min.css" />
 		<script src="/js/bootstrap.bundle.min.js"></script>
@@ -12,7 +12,7 @@
 			<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
 				<div class="container-fluid">
 					<a class="navbar-brand" href="/">
-						SIW - MOVIE
+						SIW - Squadre
 					</a>
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
@@ -41,12 +41,12 @@
 		</header>
 	
 	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
-	<h1>Film</h1>
-	<div th:if="${movies.isEmpty()}">Non ci sono film nel sistema</div>
+	<h1>Giocatori:</h1>
+	<div th:if="${giocatori.isEmpty()}">Non ci sono giocatori nel sistema</div>
 	<ul>
-		<li th:each="movie : ${movies}">
-			<a th:href="@{'/movies' + '/' + ${movie.id}}"
-				th:text="${movie.title} + ' (' + ${movie.year} + ')'">Up! (2000)</a>
+		<li th:each="giocatore : ${giocatori}">
+			<a th:href="@{'giocatore' + '/' + ${giocatore.id}}"
+				th:text="${giocatore.nome} + ' (' + ${giocatore.cognome} + ')'">Totti</a>
 		</li>
 	</ul>
 	
